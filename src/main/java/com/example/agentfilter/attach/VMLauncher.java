@@ -4,12 +4,12 @@ package com.example.agentfilter.attach;
 import com.example.agentfilter.utils.ProcessUtils;
 import com.example.agentfilter.utils.WhereIsUtils;
 import com.sun.tools.attach.VirtualMachine;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
 
-@Log4j2
+@Slf4j
 public class VMLauncher {
     public static void attachVM(String agentFile, String pid, String args) {
         log.info(String.format("agentFile: %s, pid: %s, args: %s", agentFile, pid, args));
@@ -19,7 +19,7 @@ public class VMLauncher {
             vm.detach();
         } catch (IOException e) {
             if (e.getMessage().startsWith("Non-numeric value found")) {
-                log.info("WARN: The jdk used by `ja-netfilter` does not match the attached jdk version");
+                log.info("WARN: The jdk used by `agent-filter` does not match the attached jdk version");
             }
         } catch (Throwable e) {
             log.error("Attach failed: " + pid);

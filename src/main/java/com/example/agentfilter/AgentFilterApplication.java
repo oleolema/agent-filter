@@ -1,8 +1,8 @@
 package com.example.agentfilter;
 
+import com.example.agentfilter.annotation.TransformerHandler;
 import com.example.agentfilter.attach.VMSelector;
-import com.example.agentfilter.transformer.MyTransformer;
-import com.example.agentfilter.transformer.TransformerManager;
+import com.example.agentfilter.core.TransformerManager;
 import com.example.agentfilter.utils.WhereIsUtils;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -13,24 +13,23 @@ import java.net.URI;
 import java.util.jar.JarFile;
 
 public class AgentFilterApplication {
-    public static final String VERSION = "2022.2.0";
 
-
+    @SneakyThrows
     public static void main(String[] args) {
         URI jarURI = WhereIsUtils.getJarURI();
+        System.out.println(jarURI);
         printUsage();
         String jarPath = jarURI.getPath();
         new VMSelector(new File(jarPath)).select();
     }
 
     private static void printUsage() {
-        String content = "\n  ============================================================================  \n" +
-                "\n" +
-                "    Hello Agent Filter " + VERSION +
-                "\n\n" +
-                "    A javaagent framework :)\n" +
-                "\n" +
-                "  ============================================================================  \n\n";
+        String content = "    _                    _     _____ _ _ _            \n" +
+                "   / \\   __ _  ___ _ __ | |_  |  ___(_) | |_ ___ _ __ \n" +
+                "  / _ \\ / _` |/ _ \\ '_ \\| __| | |_  | | | __/ _ \\ '__|\n" +
+                " / ___ \\ (_| |  __/ | | | |_  |  _| | | | ||  __/ |   \n" +
+                "/_/   \\_\\__, |\\___|_| |_|\\__| |_|   |_|_|\\__\\___|_|   \n" +
+                "        |___/                                         ";
 
         System.out.print(content);
     }
@@ -54,7 +53,7 @@ public class AgentFilterApplication {
         File agentFile = new File(jarURI.getPath());
         inst.appendToBootstrapClassLoaderSearch(new JarFile(agentFile));
         TransformerManager transformerManager = new TransformerManager(inst);
-        transformerManager.addTransform(new MyTransformer());
+        new TransformerHandler().addTransformer(transformerManager);
         transformerManager.retransform();
     }
 

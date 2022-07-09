@@ -5,7 +5,7 @@ import com.example.agentfilter.utils.DateUtils;
 import com.example.agentfilter.utils.ProcessUtils;
 import com.example.agentfilter.utils.WhereIsUtils;
 import lombok.SneakyThrows;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Log4j2
+@Slf4j
 public class VMSelector {
     private final File thisJar;
     private List<VMDescriptor> descriptors;
@@ -88,12 +88,12 @@ public class VMSelector {
                     return;
                 }
 
-//                System.out.print("  Agent args: ");
-//                input = getInput();
+                System.out.print("  Agent args: ");
+                input = getInput();
                 try {
                     log.info("Attach to: " + descriptors.get(index - 1));
                     VMLauncher.attachVM(thisJar.getAbsolutePath(), descriptors.get(index - 1).getId(), "");
-//                    VMLauncher.launch(thisJar, descriptors.get(index - 1), input);
+                    VMLauncher.launch(thisJar, descriptors.get(index - 1), input);
                 } catch (Exception e) {
                     log.error("> Attach to: " + index + " failed.");
                     e.printStackTrace(System.err);

@@ -1,27 +1,26 @@
-package com.example.agentfilter.transformer;
+package com.example.agentfilter.core;
 
 import javassist.ClassPool;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.security.ProtectionDomain;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author yueqiuhong
  * @date 2022/5/22
  */
-@Log4j2
+@Slf4j
 abstract public class BaseTransformer implements ClassFileTransformer {
 
     protected final ClassPool classPool = ClassPool.getDefault();
 
-    public Set<String> getRetransformClasses() {
-        return Set.of();
+    public boolean isTransformClasses(Class<?> loadedClasses) {
+        return false;
     }
 
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classFileBuffer) {
+        className = className.replace("/", ".");
         return transform(classPool, loader, className, classBeingRedefined, protectionDomain, classFileBuffer);
     }
 

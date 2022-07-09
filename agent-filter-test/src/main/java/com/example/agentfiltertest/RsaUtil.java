@@ -77,11 +77,12 @@ public class RsaUtil {
     }
 
     @Test
-    public void test1() throws NoSuchAlgorithmException {
+    public void test1() throws Exception {
         //生成密钥对
         Map<String, String> keyMap = generateKey();
         System.out.println("私钥：" + keyMap.get(KEY_TYPE_PRIVATE_KEY));
         System.out.println("公钥：" + keyMap.get(KEY_TYPE_PUBLIC_KEY));
+        System.out.println(rsaEncrypt(keyMap.get(KEY_TYPE_PRIVATE_KEY), "如果你看到我，说明消息已被拦截", KEY_TYPE_PUBLIC_KEY));
     }
 
     public static void main(String[] args) throws Exception {
