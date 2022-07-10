@@ -27,7 +27,10 @@ public class MyTransformer extends ClassTransformer {
     @Override
     public void transform(CtClass ctClass, ClassPool classPool, ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classFileBuffer) {
         CtMethod convertToAbbr = ctClass.getDeclaredMethod("toString");
-        String methodBody = "{return \"hello world!!!\";}";
+        String methodBody = "{" +
+                "System.out.println(com.example.agentfilter.transformer.MyTransformer.class);" +
+                "" +
+                "return  \"hello world!!!\";}";
         convertToAbbr.setBody(methodBody);
     }
 
